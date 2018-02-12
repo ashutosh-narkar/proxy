@@ -32,6 +32,7 @@ load(
 api_proto_library(
     name = "config_proto",
     srcs = [":config.proto"],
+    visibility = ["//visibility:public"],
     require_py = 0,
 )
 
@@ -44,6 +45,35 @@ envoy_cc_library(
         "//external:rapidjson",
         "//external:ssl",
         "@envoy//source/exe:envoy_common_lib",
+    ],
+)
+
+envoy_cc_library(
+    name = "extauth_lib",
+    srcs = ["extauth.cc"],
+    hdrs = ["extauth.h"],
+    repository = "@envoy",
+    deps = [
+        "@envoy//include/envoy/buffer:buffer_interface",
+        "@envoy//include/envoy/http:filter_interface",
+        "@envoy//include/envoy/upstream:cluster_manager_interface",
+        "@envoy//source/common/common:assert_lib",
+        "@envoy//source/common/common:logger_lib",
+        "@envoy//source/common/common:enum_to_int",
+        "@envoy//source/common/http:message_lib",
+        "@envoy//source/common/http:utility_lib"
+    ],
+)
+
+envoy_cc_library(
+    name = "extauth_config",
+    srcs = ["extauth_config.cc"],
+    hdrs = ["extauth_config.h"],
+    repository = "@envoy",
+    deps = [
+        ":extauth_lib",
+        "@envoy//source/server:configuration_lib",
+        "@envoy//source/server/config/network:http_connection_manager_lib"
     ],
 )
 

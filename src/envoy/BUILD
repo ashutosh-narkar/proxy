@@ -26,6 +26,7 @@ envoy_cc_binary(
     visibility = ["//visibility:public"],
     deps = [
         "//src/envoy/auth:http_filter_factory",
+        "//src/envoy/auth:extauth_config",
         "//src/envoy/mixer:filter_lib",
         "@envoy//source/exe:envoy_main_entry_lib",
     ],
